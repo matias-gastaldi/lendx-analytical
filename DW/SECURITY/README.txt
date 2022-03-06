@@ -1,0 +1,1 @@
+The USERS_ROLES.sql script apply only in a NON-PRODUCTION environment
