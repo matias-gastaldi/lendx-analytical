@@ -49,3 +49,26 @@ create or replace function LENDX_SANDBOX.LENDX_DW.GET_LOAN_ACCOUNT_KEY (encoded_
   $$
   ;
 
+-- get the repayments next sequence# based on a encoded_key 
+
+create or replace function LENDX_SANDBOX.LENDX_DW.GET_REPAYMENT_NEXT_SEQUENCE_NUMBER (encoded_key VARCHAR)
+  returns NUMBER
+  as 
+  $$
+    SELECT NVL(MAX(SEQUENCE_NUMBER) + 1, 0)
+		FROM LENDX_DW.FACT_LOAN_REPAYMENTS_HISTORY
+		WHERE PARENT_ACCOUNT_KEY = encoded_key
+  $$
+  ;
+
+-- get the repayments current sequence# based on a encoded_key 
+
+create or replace function LENDX_SANDBOX.LENDX_DW.GET_REPAYMENT_CURRENT_SEQUENCE_NUMBER (encoded_key VARCHAR)
+  returns NUMBER
+  as 
+  $$
+    SELECT MAX(SEQUENCE_NUMBER)
+		FROM LENDX_DW.FACT_LOAN_REPAYMENTS_HISTORY
+		WHERE PARENT_ACCOUNT_KEY = encoded_key
+  $$
+  ;
